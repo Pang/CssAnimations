@@ -7,3 +7,24 @@ body {
 canvas {
     display: block;
 }
+
+#rotateBtnsMenu {
+    display: none;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+#rotateBtnsMenu > button {
+    font-size: 30px;
+    padding: 10px 20px;
+    margin: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+    #rotateBtnsMenu {
+        display: unset;
+    }
+}

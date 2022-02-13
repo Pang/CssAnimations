@@ -12,9 +12,13 @@
 </head>
 
 <body>
-    <div id="container">
-
+    <div id="rotateBtnsMenu">
+        <button onclick="rotateDir('left')">&#8592;</button>
+        <button onclick="rotateDir('right')">&#8594;</button>
+        <button onclick="rotateDir('up')">&#8593;</button>
+        <button onclick="rotateDir('down')">&#8595;</button>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.js" integrity="sha512-NLtnLBS9Q2w7GKK9rKxdtgL7rA7CAS85uC/0xd9im4J/yOL4F9ZVlv634NAM7run8hz3wI2GabaA6vv8vJtHiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
     <script>
@@ -55,10 +59,12 @@
         window.addEventListener('mouseup', () => mouseDown = false);
         window.addEventListener('mousemove', dragObjectAround);
 
+
         var lastMouseX;
         var lastMouseY;
         function dragObjectAround(event) {
             if (mouseDown) {
+                console.log('test');
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                 mouse.y = (event.clientY / window.innerHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
@@ -87,6 +93,30 @@
         }
 
         render();
+
+        document.querySelector('canvas').addEventListener('touchstart', () => mouseDown = true);
+        document.querySelector('canvas').addEventListener('touchend', () => mouseDown = false);
+        document.querySelector('canvas').addEventListener('touchmove', dragObjectAround);
+
+        // btn logic
+        function rotateDir(dir) {
+            switch (dir) {
+                case 'right':
+                    mesh.rotation.y += 0.2;
+                    break;
+                case 'left':
+                    mesh.rotation.y -= 0.2;
+                    break;
+                case 'up':
+                    mesh.rotation.x -= 0.2;
+                    break;
+                case 'down':
+                    mesh.rotation.x += 0.2;
+                    break;
+                default:
+                    break;
+            }
+        }
     </script>
 </body>
 </html>
