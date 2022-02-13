@@ -94,10 +94,6 @@
 
         render();
 
-        document.querySelector('canvas').addEventListener('touchstart', () => mouseDown = true);
-        document.querySelector('canvas').addEventListener('touchend', () => mouseDown = false);
-        document.querySelector('canvas').addEventListener('touchmove', dragObjectAround);
-
         // btn logic
         function rotateDir(dir) {
             switch (dir) {
