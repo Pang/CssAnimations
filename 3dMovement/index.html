@@ -50,15 +50,28 @@
         window.addEventListener('mouseup', () => mouseDown = false);
         window.addEventListener('mousemove', dragObjectAround);
 
+        var lastMouseX;
+        var lastMouseY;
         function dragObjectAround(event) {
             if (mouseDown) {
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                 mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
 
-                mesh.rotation.x = -mouse.y;
-                mesh.rotation.z = (mouse.y / 2);
-                mesh.rotation.y = mouse.x;
+                var Ydiff = Math.abs(lastMouseY - mouse.y);
+                if (Ydiff > 0.001 || Ydiff < -0.001) {
+                    if (lastMouseY < mouse.y) mesh.rotation.x += 0.02;
+                    else mesh.rotation.x -= 0.02;
+                }
+
+                var Xdiff = Math.abs(lastMouseX - mouse.x);
+                if (Xdiff > 0.001 || Xdiff < -0.001) {
+                    if (lastMouseX < mouse.x) mesh.rotation.y += 0.02;
+                    else mesh.rotation.y -= 0.02;
+                }
+
+                lastMouseY = mouse.y;
+                lastMouseX = mouse.x;
             }
         }
 
