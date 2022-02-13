@@ -45,21 +45,28 @@
         light.position.set(10, 0, 25);
         scene.add(light);
 
-        window.addEventListener('mousemove', (event) => {
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            raycaster.setFromCamera(mouse, camera);
+        var mouseDown;
+        window.addEventListener('mousedown', () => mouseDown = true);
+        window.addEventListener('mouseup', () => mouseDown = false);
+        window.addEventListener('mousemove', dragObjectAround);
 
-            mesh.rotation.x = mouse.y;
-            mesh.rotation.z = (mouse.y/2);
-            mesh.rotation.y = mouse.x;
-        })
+        function dragObjectAround(event) {
+            if (mouseDown) {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                raycaster.setFromCamera(mouse, camera);
+
+                mesh.rotation.x = -mouse.y;
+                mesh.rotation.z = (mouse.y / 2);
+                mesh.rotation.y = mouse.x;
+            }
+        }
 
         var render = function () {
             requestAnimationFrame(render);
+
             renderer.render(scene, camera);
         }
-
 
         render();
     </script>
