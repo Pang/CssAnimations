@@ -15,20 +15,23 @@
     <div id="container">
 
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.js" integrity="sha512-NLtnLBS9Q2w7GKK9rKxdtgL7rA7CAS85uC/0xd9im4J/yOL4F9ZVlv634NAM7run8hz3wI2GabaA6vv8vJtHiQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>// src="scripts.js"
+    <script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         var renderer = new THREE.WebGLRenderer({ antialias: true });
         var raycaster = new THREE.Raycaster();
         var mouse = new THREE.Vector2();
+        var gltfLoader = new THREE.GLTFLoader();
 
         camera.position.z = 5;
         renderer.setClearColor("#e5e5e5");
         renderer.setSize(window.innerWidth, window.innerHeight);
+        scene.background = new THREE.Color(0xc6cfd7);
 
         document.body.appendChild(renderer.domElement);
+
         window.addEventListener('resize', () => {
             renderer.setSize(window.innerWidth, window.innerHeight);
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -36,13 +39,15 @@
             camera.updateProjectionMatrix();
         });
 
-        var geometry = new THREE.ConeGeometry(1, 2, 8);;
-        const material = new THREE.MeshLambertMaterial({ color: 0x53DB57 });
-        const mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
+        // shapes
+        var mesh;
+        gltfLoader.load('./CapsuleEnemy.glb', (gltf) => {
+            mesh = gltf.scene;
+            scene.add(mesh);
+        });
 
-        const light = new THREE.PointLight(0xffffff, 1, 500);
-        light.position.set(10, 0, 25);
+        const light = new THREE.PointLight(0xffffff, 5, 1000);
+        light.position.set(10, 0, 100);
         scene.add(light);
 
         var mouseDown;
@@ -55,19 +60,19 @@
         function dragObjectAround(event) {
             if (mouseDown) {
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                mouse.y = (event.clientY / window.innerHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
 
                 var Ydiff = Math.abs(lastMouseY - mouse.y);
                 if (Ydiff > 0.001 || Ydiff < -0.001) {
-                    if (lastMouseY < mouse.y) mesh.rotation.x += 0.02;
-                    else mesh.rotation.x -= 0.02;
+                    if (lastMouseY < mouse.y) mesh.rotation.x += 0.1;
+                    else mesh.rotation.x -= 0.1;
                 }
 
                 var Xdiff = Math.abs(lastMouseX - mouse.x);
                 if (Xdiff > 0.001 || Xdiff < -0.001) {
-                    if (lastMouseX < mouse.x) mesh.rotation.y += 0.02;
-                    else mesh.rotation.y -= 0.02;
+                    if (lastMouseX < mouse.x) mesh.rotation.y += 0.1;
+                    else mesh.rotation.y -= 0.1;
                 }
 
                 lastMouseY = mouse.y;
