@@ -5,5 +5,5 @@ Animations created with HTML, JS &amp; CSS
 Vertex Lightup:
 https://pang.github.io/CssAnimations/VertexLightup/
 
-Imported 3D Model Interactive Rotation:
+ThreeJS - Imported Model Interactive:
 https://pang.github.io/CssAnimations/3dMovement/
